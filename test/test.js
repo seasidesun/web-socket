@@ -1,5 +1,5 @@
 'use strict';
 
-var room = require('../lib');
+var Game = require('../lib');
 
-new room(8080);
+new Game(8080);
