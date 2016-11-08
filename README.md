@@ -1,9 +1,13 @@
 ## web-socket
 
 #### Todo
-```
-    userId
-    roomId
-    stream_Handler
-    err_handler
-```
+
+~~client~~
+
+~~room~~
+
+stream_handler
+
+err_handler
+
+data_struct(custom)

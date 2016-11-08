@@ -3,40 +3,89 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <style media="screen">
+    .wrapper {
+        margin: 50px auto;
+        width: 280px;
+        height: 370px;
+        background: white;
+        border-radius: 10px;
+        -webkit-box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
+        -moz-box-shadow:    0px 0px 8px rgba(0,0,0,0.3);
+        box-shadow:         0px 0px 8px rgba(0,0,0,0.3);
+        position: relative;
+        z-index: 90;
+        padding: 1em;
+        overflow: scroll;
+    }
+    </style>
   </head>
+
+  <body>
+    <div class="wrapper" id="chat"><input type="text" name="name" id="input" value="" autofocus="autofocus" style="position: absolute;bottom: 1em;right: 1em;"></div>
+  </body>
   <script type="text/javascript">
     var client = new WebSocket('ws://localhost:8080', 'echo-protocol');
+    var clientId = Math.random().toString().substr(3, 6);
+
+    var initInfo = {
+        type: 'init',
+        gameId: '0001',
+        roomId: '1001',
+        clientId: clientId,
+        info: 'Hi'
+    }
     client.onmessage = function (ret) {
-        console.log("msg in: %s", ret.data);
-    }
-    client.onopen = function (a,b,c) {
-        console.log(a,b,c);
-    }
-
-    setTimeout(function () {
-        // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
-        var data = {
-            type: 'init',
-            gameId: '0001',
-            roomId: '1001',
-            clientId: '1',
-            info: 'hello'
+        console.log(ret);
+        console.log("MSG: %s", ret.data);
+        try {
+            showMsg(JSON.parse(ret.data));
+        } catch (e) {
+            showMsg([ret.data]);
         }
-        client.send(JSON.stringify(data));
-    }, 3000);
+    }
+    client.onopen = function () {
+        client.send(JSON.stringify(initInfo));
+    }
 
-    setTimeout(function () {
-        // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
-        var data = {
+    // setTimeout(function () {
+    //     // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
+    //     var data = {
+    //         type: 'info',
+    //         gameId: '0001',
+    //         roomId: '1001',
+    //         clientId: clientId,
+    //         info: 'Hi'
+    //     }
+    //     client.send(JSON.stringify(data));
+    // }, 3000);
+
+    var box = document.getElementById('chat');
+    var input = document.getElementById('input');
+    function showMsg(data) {
+        data.map(function (str) {
+            var item = document.createElement('h5');
+            item.innerHTML = str;
+            box.appendChild(item);
+        })
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.keyCode != 13) return;
+        e.preventDefault();
+
+        var inputContent = '';
+        inputContent = input.value;
+        input.value = '';
+
+        if (!inputContent) return;
+        client.send(JSON.stringify({
             type: 'info',
             gameId: '0001',
             roomId: '1001',
-            clientId: '1',
-            info: '春哥好'
-        }
-        client.send(JSON.stringify(data));
-    }, 3600);
+            clientId: clientId,
+            info: inputContent
+        }));
+    });
   </script>
-  <body>
-  </body>
 </html>
