@@ -5,10 +5,37 @@
     <title></title>
   </head>
   <script type="text/javascript">
-    var client = new WebSocket('ws://127.0.0.1:8080', 'echo-protocol');
+    var client = new WebSocket('ws://localhost:8080', 'echo-protocol');
     client.onmessage = function (ret) {
         console.log("msg in: %s", ret.data);
     }
+    client.onopen = function (a,b,c) {
+        console.log(a,b,c);
+    }
+
+    setTimeout(function () {
+        // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
+        var data = {
+            type: 'init',
+            gameId: '0001',
+            roomId: '1001',
+            clientId: '1',
+            info: 'hello'
+        }
+        client.send(JSON.stringify(data));
+    }, 3000);
+
+    setTimeout(function () {
+        // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
+        var data = {
+            type: 'info',
+            gameId: '0001',
+            roomId: '1001',
+            clientId: '1',
+            info: '春哥好'
+        }
+        client.send(JSON.stringify(data));
+    }, 3600);
   </script>
   <body>
   </body>
