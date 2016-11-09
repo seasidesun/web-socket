@@ -6,8 +6,12 @@
 
 ~~room~~
 
-stream_handler
+~~stream_handler~~
+
+~~data_struct(custom)~~
 
 err_handler
 
-data_struct(custom)
+log
+
+usage

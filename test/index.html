@@ -33,7 +33,7 @@
         gameId: '0001',
         roomId: '1001',
         clientId: clientId,
-        info: 'Hi'
+        info: "I'm " + clientId
     }
     client.onmessage = function (ret) {
         console.log(ret);
@@ -41,29 +41,18 @@
         try {
             showMsg(JSON.parse(ret.data));
         } catch (e) {
-            showMsg([ret.data]);
         }
     }
     client.onopen = function () {
         client.send(JSON.stringify(initInfo));
     }
 
-    // setTimeout(function () {
-    //     // if (!msg.gameId || !msg.roomId || !msg.clientId || !msg.info || !msg.type) return;
-    //     var data = {
-    //         type: 'info',
-    //         gameId: '0001',
-    //         roomId: '1001',
-    //         clientId: clientId,
-    //         info: 'Hi'
-    //     }
-    //     client.send(JSON.stringify(data));
-    // }, 3000);
-
     var box = document.getElementById('chat');
     var input = document.getElementById('input');
     function showMsg(data) {
-        data.map(function (str) {
+        var info = data.info;
+        if (!(info instanceof Array)) info = [info];
+        info.map(function (str) {
             var item = document.createElement('h5');
             item.innerHTML = str;
             box.appendChild(item);
