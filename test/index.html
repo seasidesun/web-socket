@@ -27,29 +27,28 @@
   <script type="text/javascript">
     // var client = new WebSocket('ws://10.10.8.29:8080', 'echo-protocol');
     var client = new WebSocket('ws://127.0.0.1:8080', 'echo-protocol');
-    var clientId = "1011" || Math.random().toString().substr(3, 6);
+    var clientId = Math.random().toString().substr(3, 6);
 
-    var initInfo = {
-        type: 'join',
-        gameId: '0001',
-        roomId: '1001',
-        clientId: clientId,
-        info: "I'm " + clientId
-    }
     client.onmessage = function (ret) {
         console.log(ret);
         console.log("MSG: %s", ret.data);
 
         try {
             showMsg(JSON.parse(ret.data));
-        } catch (e) {}
+        } catch (e) {console.error(e)}
     }
-
+    var joinData = {
+        type: 'join',
+        gameId: 'app01',
+        roomId: 'room01',
+        clientId: clientId,
+        info: 'Hello'
+    }
     client.onopen = function () {
-        client.send(JSON.stringify(initInfo));
+        client.send(JSON.stringify(joinData));
     }
 
-    var box = document.getElementById('chat');
+
     var input = document.getElementById('input');
     document.addEventListener('keydown', function (e) {
         if (e.keyCode != 13) return;
@@ -62,20 +61,24 @@
         if (!inputContent) return;
         client.send(JSON.stringify({
             type: 'info',
-            gameId: '0001',
-            roomId: '1001',
+            gameId: 'app01',
+            roomId: 'room01',
             clientId: clientId,
-            info: inputContent
+            info: {
+                content: inputContent,
+                name: 'Mr.Trump'
+            }
         }));
     });
 
+    var box = document.getElementById('chat');
     function showMsg(data) {
         var info = data.info;
         if (!(info instanceof Array)) info = [info];
-        info.map(function (str) {
-            var item = document.createElement('h5');
-            item.innerHTML = str.clientId + ': ' + str.content;
-            box.appendChild(item);
+        info.map(function (item) {
+            var dom = document.createElement('h5');
+            dom.innerHTML = item.name + ': ' + item.content;
+            box.appendChild(dom);
         });
     }
   </script>

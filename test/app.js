@@ -1,15 +1,16 @@
 'use strict';
 
-var Game = require('../');
+var App = require('../');
 
-var game = new Game('chat', '0001', 8080);
-var room = game.createRoom('100包', '1001', []);
+var app = new App('Chatroom', 'app01', 8080);
+var room = app.createRoom('friends', 'room01', []);
 
-room.setReceiveHandler(function (msg) {
+var receiveHandler = function (msg) {
     var data = {
-        content: msg.info,
-        clientId: msg.clientId
+        content: msg.info.content,
+        name: msg.info.name
     }
-    this.info.push(data);
+    this.state.push(data);
     return data;
-})
+}
+room.setReceiveHandler(receiveHandler);
