@@ -7,15 +7,15 @@ A `node server` for `websocket`, can `customize function` to handler the server 
 ##### Install
 
 ```
-    npm install git://github.com/seasidesun/web-socket --save
+npm install git://github.com/seasidesun/web-socket --save
 
 ```
 
 ##### Usage
 
 ```
-	var app  = new App(appName, appId, portOfWebSocket);
-	var room = app.createRoom(rooName, roomId, initState);
+var app  = new App(appName, appId, portOfWebSocket);
+var room = app.createRoom(rooName, roomId, initState);
 ```
 
 ##### Eg:
@@ -79,7 +79,7 @@ var msg = {
 client.send(JSON.stringify(msg));
 ```
 
-###### Feature: Handler function
+##### Feature: Handler function
 
 The chat info that be `distribut` to clients perhaps include ont only the word, you could need show user's name when chat. So we can send also :
 
@@ -110,7 +110,6 @@ room.setReceiveHandler(receiveHandler);
 
 Params:`msg` is just data you send to server from brower, and you need `push the data to state` so that the info can be saved for new client.In addition to, this `data` be returned will be `distribut to other clients`, so you can send data just as you need. For example, perhaps you want return `this.state` to client in a `game-app` for render the game view.
 
-
 ###### Other handler function
 
 ```
@@ -118,11 +117,9 @@ room.setJoinHandler(fn)  // handler when client join the room
 room.setReceiveHandler(fn) // handler when server receive msg from client
 ```
 
-
 #### Version-2.1-Todo
 
-~~custom state struct~~
-
-error handler
-
-client check
+- [x] custom state struct
+- [ ] log switch
+- [ ] error handler
+- [ ] client check
