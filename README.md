@@ -120,6 +120,6 @@ room.setReceiveHandler(fn) // handler when server receive msg from client
 #### Version-2.1-Todo
 
 - [x] custom state struct
-- [ ] log switch
+- [x] log switch
 - [ ] error handler
 - [ ] client check

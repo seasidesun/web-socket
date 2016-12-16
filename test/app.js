@@ -2,7 +2,7 @@
 
 var App = require('../');
 
-var app = new App('Chatroom', 'app01', 8080);
+var app = new App('Chatroom', 'app01', 8080, false);
 var room = app.createRoom('friends', 'room01', []);
 
 var receiveHandler = function (msg) {
